@@ -1,0 +1,48 @@
+ENRUTAMIENTO
+ESTATICO:
+#ip route [Direccion de red] [Mascara] {[ip siguiente salto] o [interfaz de salida]}
+DINAMICO:
+RIP:
+#router rip
+#version 2
+#network [direccion de red]
+#no auto-summary
+#redistributate static (si se utiliza con estatico)
+EIGRP:
+#router eigrp [# de proceso]
+#network [direccion de red] [wildcard]
+#redistributate static (si se utiliza con estatico)
+OSPF:
+#router ospf [# de proceso]
+#network [direccion de red] [wildcard] area [# de area]
+#default information originate (si se utiliza con estatico)
+ PROTOCOLO PUNTO A PUNTO (PPP)
+CHAP:
+#username [Nombre del router vecino] password [clave]
+-> Entramos a la interfaz
+#encapsulation ppp
+#ppp authentication chap
+PAP:
+#username [Nombre del router vecino] password [clave]
+-> Entramos a la interfaz
+#encapsulation ppp
+#ppp authentication pap
+#ppp pap sent-username [Nombre del router] password [clave]
+ FRAME-RELAY
+MAPAS ESTATICOS:
+-> Dentro de la interfaz
+#encapsulation frame-relay
+#frame-relay map ip [ip router vecino] [#DLCI] broadcast
+#frame-relay lmi-type [tipo]
+Si enrutamos por ospf añadir:
+#ip ospf network broadcast
+SUB-INTERFACES
+-> Dentro de la interfaz
+#encapsulation frame-relay
+#exit
+#interface se[# de serial].[DLCI] point-to-point
+#ip add [IP + Mascara]
+#frame-relay interface [DLCI]
+#frame-relay lmi-type [tipo]
+Si enrutamos pro ospf añadir:
+#ip ospf network broadcast
